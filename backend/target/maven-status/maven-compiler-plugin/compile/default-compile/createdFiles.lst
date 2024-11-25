@@ -3,4 +3,3 @@ com\mert3r\gameoflife\Cell.class
 com\mert3r\gameoflife\App.class
 com\mert3r\gameoflife\GameLogic.class
 com\mert3r\gameoflife\App$CellToggleRequest.class
-com\mert3r\gameoflife\GameOfLife.class

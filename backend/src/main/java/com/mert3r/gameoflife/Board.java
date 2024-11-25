@@ -9,9 +9,9 @@ public class Board {
         this.rows = rows;
         this.cols = cols;
         this.grid = new Cell[rows][cols];
-        randomizeCells();
     }
 
+    // Reset the board
     public void reset() {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -30,7 +30,7 @@ public class Board {
         }
     }
 
-    //getters
+    // Getters
 
     public Cell[][] getGrid() {
         return grid;
@@ -44,7 +44,7 @@ public class Board {
         return cols;
     }
 
-    //validations
+    // Validations
 
     public boolean isValidPosition(int row, int col) {
         return row >= 0 && row < rows && col >= 0 && col < cols;
@@ -54,7 +54,7 @@ public class Board {
         return isValidPosition(row, col) && grid[row][col].isAlive();
     }
 
-    //setters
+    // Setters
     
     public void setCellState(int row, int col, boolean alive) {
         if (isValidPosition(row, col)) {

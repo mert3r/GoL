@@ -7,6 +7,7 @@ public class GameLogic {
         this.board = board;
     }
 
+    // Step (Next generation) logic
     public void step() {
         int rows = board.getRows();
         int cols = board.getCols();
