@@ -1,0 +1,69 @@
+/* Ensure body takes up full height */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+/* Game container */
+.game-container {
+    text-align: center;
+    width: 90vmin; /* Keep the game container responsive */
+    height: 90vmin; /* Maintain a square container */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Grid container */
+#grid-container {
+    display: grid;
+    grid-template-columns: repeat(50, 1fr); /* 50 columns */
+    grid-template-rows: repeat(50, 1fr); /* 50 rows */
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: #ffffff;
+}
+
+/* Individual cells */
+.cell {
+    background-color: white;
+    border: 1px solid gray; /* Optional: Adds grid lines */
+    box-sizing: border-box;
+    transition: background-color 0.2s ease;
+}
+
+.cell.alive {
+    background-color: black;
+}
+
+/* Controls */
+.controls {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
