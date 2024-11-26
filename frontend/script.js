@@ -21,26 +21,55 @@ let generation = 0;
 
 // Function to render the grid in the DOM
 function renderGrid() {
-    requestAnimationFrame(() => {
-        gridContainer.innerHTML = ""; // Clear previous grid
+    const gridContainer = document.getElementById('grid-container');
+    gridContainer.innerHTML = ''; // Clear the existing grid
 
-        for (let i = 0; i < grid.length; i++) {
-            for (let j = 0; j < grid[i].length; j++) {
-                const cell = document.createElement("div");
-                cell.classList.add("cell");
-                if (grid[i][j]) {
-                    cell.classList.add("alive");
-                }
-                gridContainer.appendChild(cell);
-            }
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[row].length; col++) {
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+            cell.dataset.row = row; // Store row index
+            cell.dataset.col = col; // Store column index
+            cell.style.backgroundColor = grid[row][col] ? 'black' : 'white';
+
+            // Add click listener to toggle the cell state
+            cell.addEventListener('click', () => {
+                toggleCellState(row, col); // Call the toggle function
+            });
+
+            gridContainer.appendChild(cell);
         }
-    });
+    }
 }
 
-// Function to toggle the state of a cell
-function toggleCellState(row, col) {
-    grid[row][col] = !grid[row][col];
-    renderGrid();  // Re-render the grid after a change
+async function toggleCellState(row, col) {
+    try {
+        // Prepare the request payload
+        const payload = {
+            row: row,
+            col: col,
+            alive: !grid[row][col] // Flip the current cell's state
+        };
+
+        // Send POST request to the backend
+        const response = await fetch('http://localhost:7000/toggle', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to toggle cell state: ${response.statusText}`);
+        }
+
+        // Update the grid visually
+        grid[row][col] = payload.alive;
+        renderGrid(); // Re-render the grid with the updated state
+    } catch (error) {
+        console.error('Error toggling cell state:', error);
+    }
 }
 
 // Function to fetch the next generation from the backend

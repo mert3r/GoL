@@ -3,63 +3,55 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Basic Project Info -->
     <groupId>com.mert3r</groupId>
     <artifactId>gameoflife</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <!-- Dependencies Section -->
     <dependencies>
-        <!-- Javalin for Web Framework -->
+        <!-- Javalin -->
         <dependency>
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
             <version>5.6.2</version>
         </dependency>
 
-        <!-- JUnit 5 for Testing -->
+        <!-- SLF4J Simple (Logging Implementation) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.7</version>
+        </dependency>
+
+        <!-- Jackson for JSON -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.0</version>
+        </dependency>
+
+        <!-- JUnit for Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.10.0</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Lightweight HTTP Server (Optional, not needed with Javalin) -->
-        <!-- Remove if Javalin covers all your needs -->
-        <dependency>
-            <groupId>com.sun.net.httpserver</groupId>
-            <artifactId>http</artifactId>
-            <version>20070405</version>
-        </dependency>
-        <!-- Add this SLF4J dependency to enable logging -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>2.0.7</version>
-        </dependency>
-        <!-- Object mapper -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.15.0</version>
-        </dependency>
     </dependencies>
 
-    <!-- Build Section -->
     <build>
         <plugins>
-            <!-- Compiler Plugin to Set Java Version -->
+            <!-- Compiler Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <source>17</source> <!-- Set Java source version -->
-                    <target>17</target> <!-- Set Java target version -->
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
-              <!-- Maven Exec Plugin -->
+
+            <!-- Exec Plugin -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>

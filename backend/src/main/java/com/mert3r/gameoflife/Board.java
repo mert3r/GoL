@@ -9,6 +9,11 @@ public class Board {
         this.rows = rows;
         this.cols = cols;
         this.grid = new Cell[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                this.grid[i][j] = new Cell(false); // Initialize each cell
+            }
+        }
     }
 
     // Reset the board
@@ -31,7 +36,6 @@ public class Board {
     }
 
     // Getters
-
     public Cell[][] getGrid() {
         return grid;
     }
@@ -45,7 +49,6 @@ public class Board {
     }
 
     // Validations
-
     public boolean isValidPosition(int row, int col) {
         return row >= 0 && row < rows && col >= 0 && col < cols;
     }
@@ -55,7 +58,6 @@ public class Board {
     }
 
     // Setters
-    
     public void setCellState(int row, int col, boolean alive) {
         if (isValidPosition(row, col)) {
             grid[row][col].setAlive(alive);
