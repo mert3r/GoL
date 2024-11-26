@@ -1,17 +1,15 @@
-/* Ensure body takes up full height */
 body {
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align to top instead of center */
+    align-items: flex-start;
     height: 100%;
     min-height: 100vh;
     background-color: #f0f0f0;
     font-family: Arial, sans-serif;
 }
 
-/* Game container */
 .game-container {
     display: flex;
     flex-direction: column;
@@ -22,10 +20,9 @@ body {
     max-width: 100%; /* Prevent horizontal overflow */
     max-height: 100%; /* Prevent vertical overflow */
     box-sizing: border-box;
-    padding-top: 20px; /* Maintain top padding */
+    padding-top: 20px;
 }
 
-/* Header (h1) styling */
 h1 {
     margin: 0;
     padding: 0;
@@ -34,7 +31,6 @@ h1 {
     color: #333;
 }
 
-/* Generation counter */
 .generation-counter {
     font-size: 18px;
     font-weight: bold;
@@ -43,24 +39,20 @@ h1 {
     color: #333;
 }
 
-/* Highlight the generation number */
 .generation-counter span {
     color: #007BFF;
 }
 
-/* Grid container */
 #grid-container {
     display: grid;
     grid-template-columns: repeat(50, 1fr);
     grid-template-rows: repeat(50, 1fr);
     width: 100%;
     aspect-ratio: 1; /* Ensure grid stays square */
-    border: 1px solid #ccc;
     background-color: #ffffff;
     box-sizing: border-box;
 }
 
-/* Individual cells */
 .cell {
     background-color: white;
     border: 1px solid gray;
@@ -72,12 +64,12 @@ h1 {
     background-color: black;
 }
 
-/* Controls */
 .controls {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 10px;
-    padding-bottom: 20px; /* Added padding to the bottom */
+    padding-bottom: 20px;
 }
 
 button {
@@ -93,4 +85,21 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+.speed-control {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Add spacing between label, slider, and value */
+    justify-content: center;
+}
+
+#speedControl {
+    width: 200px;
+}
+
+#speedValue {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
 }

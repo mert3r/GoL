@@ -3,21 +3,27 @@ const gridSize = 50;
 const rows = gridSize;
 const cols = gridSize;
 
+// Speed
+const maxSpeed = 50; // 50ms/generation
+const minSpeed = 1000; // 1000ms/generation
+
 // Page elements
 const gridContainer = document.getElementById('grid-container');
 const stepButton = document.getElementById('step-button');
 const resetButton = document.getElementById('reset-button');
 const randomizeButton = document.getElementById('randomize-button');
 const playPauseButton = document.getElementById("play-pause-button");
+const speedControl = document.getElementById('speedControl');
+const speedValue = document.getElementById('speedValue');
 
-// Initialize an empty grid
-let grid = Array.from({ length: rows }, () => Array(cols).fill(false)); 
+// Variables
+let grid = Array.from({ length: rows }, () => Array(cols).fill(false)); // Initialize an empty grid
 
-// Interval ID
-let playInterval = null;
+let playIntervalId = null; // Interval ID
+let playInterval = 250; // Default interval (250ms)
+let isPlaying = false; // Track whether the game is currently playing
 
-// Generation initialization
-let generation = 0;
+let generation = 0; // Generation initialization
 
 // Function to render the grid in the DOM
 function renderGrid() {
@@ -32,9 +38,9 @@ function renderGrid() {
             cell.dataset.col = col; // Store column index
             cell.style.backgroundColor = grid[row][col] ? 'black' : 'white';
 
-            // Add click listener to toggle the cell state
+            // Event listener
             cell.addEventListener('click', () => {
-                toggleCellState(row, col); // Call the toggle function
+                toggleCellState(row, col);
             });
 
             gridContainer.appendChild(cell);
@@ -42,6 +48,7 @@ function renderGrid() {
     }
 }
 
+// Function to toggle the cell state
 async function toggleCellState(row, col) {
     try {
         // Prepare the request payload
@@ -117,6 +124,7 @@ resetButton.addEventListener('click', () => {
         renderGrid();     // Re-render the grid
     })
     .catch(error => console.error('Error resetting grid:', error));
+    
     resetGenerationCounter();
 });
 
@@ -131,31 +139,33 @@ randomizeButton.addEventListener('click', () => {
         renderGrid();  // Re-render the grid
     })
     .catch(error => console.error('Error:', error));
+    
     resetGenerationCounter();
 });
 
 // Play/Pause logic
 function togglePlayPause() {
-    if (playInterval === null) {
-        startInterval();
+    if (isPlaying) {
+        stopInterval(); // Pause the game
     } else {
-        stopInterval();
+        startInterval(); // Start the game
     }
 }
 
+// Function to start the interval and advance generations (start the game)
 function startInterval(){
-    // Start the interval
-    playInterval = setInterval(() => {
+    playIntervalId = setInterval(() => {
         fetchNextGeneration();
-    }, 250); // Adjust interval time as needed (250ms)
+    }, playInterval); // Sets interval time
     playPauseButton.textContent = "Pause"; // Update button text
+    isPlaying = true;
 }
 
+// Function to stop the interval (pause the game)
 function stopInterval(){
-    // Stop the interval
-    clearInterval(playInterval);
-    playInterval = null;
+    clearInterval(playIntervalId); // Stop the current interval
     playPauseButton.textContent = "Play"; // Update button text
+    isPlaying = false;
 }
 
 // Event listener for Play/Pause button
@@ -164,15 +174,36 @@ playPauseButton.addEventListener("click", togglePlayPause);
 // Update the generation counter in the DOM
 function updateGenerationCounter() {
     const generationCountElement = document.getElementById("generation-count");
-    generationCountElement.textContent = generation; // Set the generation number
+    generationCountElement.textContent = generation;
 }
 
 //Reset Generation counter in the DOM
 function resetGenerationCounter(){
     stopInterval();
-    generation = 0; // Reset to 0
+    generation = 0;
     updateGenerationCounter(); // Update the UI
 }
+
+// Function to update the speed when the slider value changes
+function updateSpeed() {
+    // Reverse the slider value
+    const reversedInterval = (minSpeed - parseInt(speedControl.value, 10)) + maxSpeed;
+
+    // Update the playInterval with the reversed value
+    playInterval = reversedInterval;
+
+    // Display the reversed interval as the current speed in the UI
+    speedValue.textContent = `${reversedInterval} ms/generation`;
+
+    // If the game is running, restart the interval with the updated speed
+    if (isPlaying) {
+        stopInterval();
+        startInterval();
+    }
+}
+
+// Event listener for speed control
+speedControl.addEventListener("input", updateSpeed);
 
 // Initial render of the grid
 renderGrid();

@@ -11,17 +11,25 @@
         <h1>Game of Life</h1>
         <!-- Game grid -->
         <div id="grid-container"></div>
+        
+        <!-- Generation Counter -->
         <div class="generation-counter">
             Generation: <span id="generation-count">0</span>
         </div>
+        
+        <!-- Speed Control Slider -->
+        <div class="speed-control">
+            <label for="speedControl">Speed:</label>
+            <input type="range" id="speedControl" min="50" max="1000" step="10" value="750">
+            <span id="speedValue">250 ms/generation</span>
+        </div>
+
         <!-- Controls -->
         <div class="controls">
-            <div class="controls">
-                <button id="randomize-button">Randomize</button>
-                <button id="step-button">Next Generation</button>
-                <button id="play-pause-button">Play/Pause</button>
-                <button id="reset-button">Reset</button>               
-            </div>            
+            <button id="randomize-button">Randomize</button>
+            <button id="step-button">Next Generation</button>
+            <button id="play-pause-button">Play/Pause</button>
+            <button id="reset-button">Reset</button>
         </div>
     </div>
     <script src="script.js"></script>

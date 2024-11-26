@@ -8,4 +8,5 @@ Dev notes:
 - 2024-11-26
     - Added play/pause functionality to automatically advance generations
     - Added generation counter
+    - Added speed control
     - Codebase cleanup, comments
