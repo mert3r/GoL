@@ -45,6 +45,19 @@ body {
     background-color: black;
 }
 
+/* Generation counter */
+.generation-counter {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+    text-align: center;
+    color: #333; /* Adjust to your design */
+}
+
+.generation-counter span {
+    color: #007BFF; /* Highlight the number */
+}
+
 /* Controls */
 .controls {
     margin-top: 10px;

@@ -16,6 +16,9 @@ let grid = Array.from({ length: rows }, () => Array(cols).fill(false));
 // Interval ID
 let playInterval = null;
 
+// Generation initialization
+let generation = 0;
+
 // Function to render the grid in the DOM
 function renderGrid() {
     requestAnimationFrame(() => {
@@ -62,6 +65,8 @@ async function fetchNextGeneration() {
     } catch (error) {
         console.error("Error fetching next generation:", error);
     }
+    generation++; // Increment the generation
+    updateGenerationCounter(); // Update the UI
 }
 
 // Event listener for "Next generation" button
@@ -83,6 +88,7 @@ resetButton.addEventListener('click', () => {
         renderGrid();     // Re-render the grid
     })
     .catch(error => console.error('Error resetting grid:', error));
+    resetGenerationCounter();
 });
 
 // Function that randomizes the cell states in the grid
@@ -96,25 +102,48 @@ randomizeButton.addEventListener('click', () => {
         renderGrid();  // Re-render the grid
     })
     .catch(error => console.error('Error:', error));
+    resetGenerationCounter();
 });
 
+// Play/Pause logic
 function togglePlayPause() {
     if (playInterval === null) {
-        // Start the interval
-        playInterval = setInterval(() => {
-            fetchNextGeneration();
-        }, 500); // Adjust interval time as needed (500ms = 0.5 seconds)
-        playPauseButton.textContent = "Pause"; // Update button text
+        startInterval();
     } else {
-        // Stop the interval
-        clearInterval(playInterval);
-        playInterval = null;
-        playPauseButton.textContent = "Play"; // Update button text
+        stopInterval();
     }
+}
+
+function startInterval(){
+    // Start the interval
+    playInterval = setInterval(() => {
+        fetchNextGeneration();
+    }, 250); // Adjust interval time as needed (250ms)
+    playPauseButton.textContent = "Pause"; // Update button text
+}
+
+function stopInterval(){
+    // Stop the interval
+    clearInterval(playInterval);
+    playInterval = null;
+    playPauseButton.textContent = "Play"; // Update button text
 }
 
 // Event listener for Play/Pause button
 playPauseButton.addEventListener("click", togglePlayPause);
+
+// Update the generation counter in the DOM
+function updateGenerationCounter() {
+    const generationCountElement = document.getElementById("generation-count");
+    generationCountElement.textContent = generation; // Set the generation number
+}
+
+//Reset Generation counter in the DOM
+function resetGenerationCounter(){
+    stopInterval();
+    generation = 0; // Reset to 0
+    updateGenerationCounter(); // Update the UI
+}
 
 // Initial render of the grid
 renderGrid();

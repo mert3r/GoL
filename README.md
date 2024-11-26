@@ -7,4 +7,5 @@ Dev notes:
     - Basic frontend (static grid, buttons, simple styling)
 - 2024-11-26
     - Added play/pause functionality to automatically advance generations
+    - Added generation counter
     - Codebase cleanup, comments
