@@ -25,6 +25,7 @@ public class Board {
         }
     }
 
+    // Randomize board setup
     public void randomizeCells(){
         double chance = 0.5;
         for (int i = 0; i < rows; i++) {
@@ -33,6 +34,15 @@ public class Board {
                 grid[i][j] = new Cell(isAlive); // 50/50 chance dead or alive cell
             }
         }
+    }
+
+    // Validations
+    public boolean isValidPosition(int row, int col) {
+        return row >= 0 && row < rows && col >= 0 && col < cols;
+    }
+
+    public boolean isCellAlive(int row, int col) {
+        return isValidPosition(row, col) && grid[row][col].isAlive();
     }
 
     // Getters
@@ -46,15 +56,6 @@ public class Board {
 
     public int getCols() {
         return cols;
-    }
-
-    // Validations
-    public boolean isValidPosition(int row, int col) {
-        return row >= 0 && row < rows && col >= 0 && col < cols;
-    }
-
-    public boolean isCellAlive(int row, int col) {
-        return isValidPosition(row, col) && grid[row][col].isAlive();
     }
 
     // Setters

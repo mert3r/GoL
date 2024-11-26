@@ -97,12 +97,16 @@ async function fetchNextGeneration() {
         // Parse the response and update the grid
         const updatedGrid = await response.json();
         grid = updatedGrid; // Update the grid
-        renderGrid(); // Re-render the grid
+        renderGrid();       // Re-render the grid
+
+        // Increment generation only if the game is running
+        if (isPlaying) {
+            generation++;
+            updateGenerationCounter();
+        }
     } catch (error) {
         console.error("Error fetching next generation:", error);
     }
-    generation++; // Increment the generation
-    updateGenerationCounter(); // Update the UI
 }
 
 // Event listener for "Next generation" button
@@ -110,6 +114,8 @@ stepButton.addEventListener("click", fetchNextGeneration);
 
 // Function to handle the "Reset" button click
 resetButton.addEventListener('click', () => {
+    resetGenerationCounter();
+
     fetch('http://localhost:7000/reset', {
         method: 'POST',
     })
@@ -124,12 +130,12 @@ resetButton.addEventListener('click', () => {
         renderGrid();     // Re-render the grid
     })
     .catch(error => console.error('Error resetting grid:', error));
-    
-    resetGenerationCounter();
 });
 
 // Function that randomizes the cell states in the grid
 randomizeButton.addEventListener('click', () => {
+    resetGenerationCounter();
+
     fetch('http://localhost:7000/randomize', {
         method: 'POST',
     })
@@ -139,8 +145,6 @@ randomizeButton.addEventListener('click', () => {
         renderGrid();  // Re-render the grid
     })
     .catch(error => console.error('Error:', error));
-    
-    resetGenerationCounter();
 });
 
 // Play/Pause logic

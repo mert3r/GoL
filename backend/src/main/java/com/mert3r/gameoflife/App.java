@@ -43,6 +43,7 @@ public class App {
         });
     }
 
+    // Functions
     private static void processStepRequest(io.javalin.http.Context ctx, GameLogic gameLogic) {
         Map<String, Object> body = ctx.bodyAsClass(Map.class);
         Object gridObject = body.get("grid");
