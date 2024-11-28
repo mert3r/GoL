@@ -8,13 +8,13 @@ const maxSpeed = 50; // 50ms/generation
 const minSpeed = 1000; // 1000ms/generation
 
 // Page elements
-const gridContainer = document.getElementById('grid-container');
-const stepButton = document.getElementById('step-button');
-const resetButton = document.getElementById('reset-button');
-const randomizeButton = document.getElementById('randomize-button');
+const gridContainer = document.getElementById("grid-container");
+const stepButton = document.getElementById("step-button");
+const resetButton = document.getElementById("reset-button");
+const randomizeButton = document.getElementById("randomize-button");
 const playPauseButton = document.getElementById("play-pause-button");
-const speedControl = document.getElementById('speedControl');
-const speedValue = document.getElementById('speedValue');
+const speedControl = document.getElementById("speedControl");
+const speedValue = document.getElementById("speedValue");
 
 // Variables
 let grid = Array.from({ length: rows }, () => Array(cols).fill(false)); // Initialize an empty grid
@@ -27,19 +27,19 @@ let generation = 0; // Generation initialization
 
 // Function to render the grid in the DOM
 function renderGrid() {
-    const gridContainer = document.getElementById('grid-container');
-    gridContainer.innerHTML = ''; // Clear the existing grid
+    const gridContainer = document.getElementById("grid-container");
+    gridContainer.innerHTML = ""; // Clear the existing grid
 
     for (let row = 0; row < grid.length; row++) {
         for (let col = 0; col < grid[row].length; col++) {
-            const cell = document.createElement('div');
-            cell.className = 'cell';
+            const cell = document.createElement("div");
+            cell.className = "cell";
             cell.dataset.row = row; // Store row index
             cell.dataset.col = col; // Store column index
-            cell.style.backgroundColor = grid[row][col] ? 'black' : 'white';
+            cell.style.backgroundColor = grid[row][col] ? "black" : "white";
 
             // Event listener
-            cell.addEventListener('click', () => {
+            cell.addEventListener("click", () => {
                 toggleCellState(row, col);
             });
 
@@ -59,10 +59,10 @@ async function toggleCellState(row, col) {
         };
 
         // Send POST request to the backend
-        const response = await fetch('http://localhost:7000/toggle', {
-            method: 'POST',
+        const response = await fetch("http://localhost:7000/toggle", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(payload),
         });
@@ -75,7 +75,7 @@ async function toggleCellState(row, col) {
         grid[row][col] = payload.alive;
         renderGrid(); // Re-render the grid with the updated state
     } catch (error) {
-        console.error('Error toggling cell state:', error);
+        console.error("Error toggling cell state:", error);
     }
 }
 
@@ -110,14 +110,18 @@ async function fetchNextGeneration() {
 }
 
 // Event listener for "Next generation" button
-stepButton.addEventListener("click", fetchNextGeneration);
+stepButton.addEventListener("click", () => {
+    fetchNextGeneration();
+    generation++;
+    updateGenerationCounter();
+});
 
 // Function to handle the "Reset" button click
-resetButton.addEventListener('click', () => {
+resetButton.addEventListener("click", () => {
     resetGenerationCounter();
 
-    fetch('http://localhost:7000/reset', {
-        method: 'POST',
+    fetch("http://localhost:7000/reset", {
+        method: "POST",
     })
     .then(response => {
         if (!response.ok) {
@@ -129,22 +133,22 @@ resetButton.addEventListener('click', () => {
         grid = resetGrid; // Update the grid with the reset grid from the backend
         renderGrid();     // Re-render the grid
     })
-    .catch(error => console.error('Error resetting grid:', error));
+    .catch(error => console.error("Error resetting grid:", error));
 });
 
 // Function that randomizes the cell states in the grid
-randomizeButton.addEventListener('click', () => {
+randomizeButton.addEventListener("click", () => {
     resetGenerationCounter();
 
-    fetch('http://localhost:7000/randomize', {
-        method: 'POST',
+    fetch("http://localhost:7000/randomize", {
+        method: "POST",
     })
     .then(response => response.json())
     .then(updatedGrid => {
         grid = updatedGrid;  // Update the grid with the next generation
         renderGrid();  // Re-render the grid
     })
-    .catch(error => console.error('Error:', error));
+    .catch(error => console.error("Error:", error));
 });
 
 // Play/Pause logic
